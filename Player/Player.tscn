@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://Player/Player.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Camera2D
+
+
+#onready var player = get_parent().get_node(\"Player\")
+#
+#var tilt = 50
+#
+#func _process(delta):
+#	var mouse_pos = get_viewport().get_mouse_position()
+#	var new_position = -(player.position - mouse_pos).normalized() * tilt
+#
+#	position = -(player.position - mouse_pos).normalized() * tilt
+#
+"
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( 0.880249, -0.440125 )
+scale = Vector2( 0.25, 0.25 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 2000, 0 )
+
+[node name="Player" type="Sprite" parent="."]
+position = Vector2( 7.27597, -0.217705 )
+scale = Vector2( 0.811788, 0.818317 )
+texture = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+script = SubResource( 2 )

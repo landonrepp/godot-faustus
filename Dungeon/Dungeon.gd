@@ -1,14 +1,15 @@
 extends Node2D
 
 onready var Room = preload("res://Dungeon/Room/Room.tscn")
+onready var Player = preload("res://Player/Player.tscn")
 
 const tile_size = 16
-const num_rooms = 20
+const num_rooms = 40
 const min_size = 4
 const max_size = 10
-const hspread = 30
+const hspread = 0
 const vspread = 0
-const cull = .25
+const cull = 0
 var path #holds spanning tree to rooms
 onready var Map = $BaseDungeonTiles
 
@@ -16,6 +17,22 @@ func _ready():
 	randomize()
 	yield(make_rooms(),"completed")
 	make_map()
+	yield(get_tree(),"idle_frame")
+	spawn_player()
+func spawn_player():
+	#get leftmost room and spawn the player in it
+	var min_x = INF
+	var min_p = null
+	for room in $Rooms.get_children():
+		if room.position.x < min_x:
+			min_p = room
+			min_x = room.position.x
+#		room.queue_free()
+	var player = Player.instance()
+	player.position = min_p.position
+	min_p.queue_free()
+	add_child(player)
+	
 
 func make_rooms():
 	for _i in range(num_rooms):
@@ -34,7 +51,8 @@ func make_rooms():
 		if(randf() < cull):
 			room.queue_free()
 		else:
-			room.mode = RigidBody2D.MODE_STATIC	
+			room.mode = RigidBody2D.MODE_STATIC
+			room.set_disabled(true)
 			room_positions.append(Vector3(room.position.x,
 				room.position.y,0))
 	#TODO: learn how to get rid of these yields
@@ -83,7 +101,7 @@ func make_map():
 	var corridors = []
 	for room in $Rooms.get_children():
 		var s = (room.size / tile_size).floor()
-		var pos = Map.world_to_map(room.position)
+#		var pos = Map.world_to_map(room.position)
 		var upper_left = (room.position / tile_size).floor() - s
 		for x in range(2, s.x * 2 - 1):
 			for y in range(2, s.y * 2 - 1):			
