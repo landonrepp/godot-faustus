@@ -2,11 +2,12 @@ extends Node2D
 
 onready var Room = preload("res://Dungeon/Room/Room.tscn")
 onready var Player = preload("res://Player/Player.tscn")
+onready var prjectile_assets = preload("res://Projectiles/Projectile.tscn")
 
 const tile_size = 16
-const num_rooms = 40
-const min_size = 4
-const max_size = 10
+const num_rooms = 15
+const min_size = 2
+const max_size = 7
 const hspread = 0
 const vspread = 0
 const cull = 0
@@ -19,6 +20,8 @@ func _ready():
 	make_map()
 	yield(get_tree(),"idle_frame")
 	spawn_player()
+	set_process(true)
+
 func spawn_player():
 	#get leftmost room and spawn the player in it
 	var min_x = INF
@@ -30,8 +33,9 @@ func spawn_player():
 #		room.queue_free()
 	var player = Player.instance()
 	player.position = min_p.position
-	min_p.queue_free()
+	print(min_p.position)
 	add_child(player)
+
 	
 
 func make_rooms():
@@ -124,7 +128,7 @@ func carve_path(pos1, pos2):
 	if x_diff == 0: x_diff = pow(-1,randi()%2)
 	if y_diff == 0: y_diff = pow(-1,randi()%2)
 
-	#randomly choose a starting position	
+	#randomly choose a starting position
 	var x_y = pos1
 	var y_x = pos2
 	if(randi()%2) > 0:
