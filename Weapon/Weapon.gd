@@ -15,6 +15,9 @@ func make_weapon(proj_dict : Dictionary, group : String) -> void:
 
 func shoot():
 	var projectile = prjectile_assets.instance()
-	projectile.make_projectile(weapon_properties,get_parent().get_parent().position,Vector2(sin(global_rotation),cos(global_rotation)),player_group)
+	projectile.make_projectile(weapon_properties,
+		get_parent().get_parent().position,
+		Vector2(cos(global_rotation),sin(global_rotation)),
+		get_parent().get_parent().get_collision_layer())
 	print("bang")
 	get_tree().get_root().get_node("Dungeon").add_child(projectile)

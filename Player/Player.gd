@@ -12,7 +12,8 @@ onready var weapon = get_node("YSort").get_node("Weapon")
 
 func _ready():
 	yield(get_tree(), "idle_frame")
-	get_tree().call_group("zombies", "set_player", self)
+	add_to_group("player")
+	weapon.make_weapon({},"player")
  
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO

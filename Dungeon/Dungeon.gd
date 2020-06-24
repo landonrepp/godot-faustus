@@ -55,7 +55,6 @@ func make_rooms():
 		if(randf() < cull):
 			room.queue_free()
 		else:
-			room.mode = RigidBody2D.MODE_STATIC
 			room.set_disabled(true)
 			room_positions.append(Vector3(room.position.x,
 				room.position.y,0))
