@@ -1,13 +1,6 @@
 extends KinematicBody2D
 
-
-#func _ready():
-#	connect("area_entered", self, "hit")
-#	set_process(true)
-	
-
 func hit(collider): 
-	print("hit")
 	if !collider: return
 	if collider.has_method("take_damage"):
 		collider.take_damage(damage)
@@ -46,3 +39,6 @@ func _process(delta):
 	
 	if collision_info:
 		hit(collision_info.collider)
+	
+	if abs(position.distance_to(initial_position)) >= max_distance:
+		queue_free()

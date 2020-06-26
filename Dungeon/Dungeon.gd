@@ -3,6 +3,7 @@ extends Node2D
 onready var Room = preload("res://Dungeon/Room/Room.tscn")
 onready var Player = preload("res://Player/Player.tscn")
 onready var prjectile_assets = preload("res://Projectiles/Projectile.tscn")
+onready var drop = preload("res://Drops/Drop.tscn")
 
 const tile_size = 16
 const num_rooms = 15
@@ -140,3 +141,5 @@ func carve_path(pos1, pos2):
 		Map.set_cell(y_x.x, y,0)
 		Map.set_cell(y_x.x + x_diff, y,0)
 		
+#func add_drops():
+#
