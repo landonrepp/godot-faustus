@@ -38,6 +38,8 @@ func _physics_process(delta):
 		weapon.set_flip_v(true)
 	else:
 		weapon.set_flip_v(false)
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_pressed("shoot"):
 		#todo: activate weapon
-		weapon.shoot()
+		weapon.set_shooting(true)
+	else:
+		weapon.set_shooting(false)
