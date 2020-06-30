@@ -6,6 +6,8 @@ const friction = 1000
 var health = 100
  
 var velocity = Vector2.ZERO
+var inventory = []
+
 
 onready var player_sprite = get_node("YSort").get_node("PlayerSprite")
 onready var weapon = get_node("YSort").get_node("Weapon")
@@ -43,3 +45,8 @@ func _physics_process(delta):
 		weapon.set_shooting(true)
 	else:
 		weapon.set_shooting(false)
+
+# has DropType enum value in "stats", 
+# and stats dictionary
+func add_to_inventory(item):
+	inventory.append(item)

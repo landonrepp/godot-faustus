@@ -6,15 +6,14 @@ onready var prjectile_assets = preload("res://Projectiles/Projectile.tscn")
 onready var drop = preload("res://Drops/Drop.tscn")
 
 const tile_size = 16
-const num_rooms = 15
+const num_rooms = 6
 const min_size = 2
-const max_size = 7
+const max_size = 4
 const hspread = 0
 const vspread = 0
 const cull = 0
 var path #holds spanning tree to rooms
 onready var Map = $BaseDungeonTiles
-var min_p
 
 func _ready():
 	randomize()
@@ -28,7 +27,7 @@ func _ready():
 func spawn_player():
 	#get leftmost room and spawn the player in it
 	var min_x = INF
-	min_p = null
+	var min_p = null
 	for room in $Rooms.get_children():
 		if room.position.x < min_x:
 			min_p = room
@@ -124,15 +123,13 @@ func make_map():
 				carve_path(start,end)
 		corridors.append(p)
 
-func make_drops():
+func make_drops(num_of_drops : int = 3):
 	var rooms = $Rooms.get_children()
 	#pick a random room and put some drops in it
 	var room = rooms[randi() % rooms.size()]
-	#DEBUGGING:
-	room = min_p
-	var r = Rect2(room.position - room.size,
-		room.get_node("CollisionShape2D").shape.extents*2)
-	for i in range(3):
+	var r = Rect2(room.position - room.size/2,
+		room.size)
+	for i in range(num_of_drops):
 		var pos = Vector2(r.position.x + (randi() % int(r.end.x - r.position.x)),
 			r.position.y + (randi() % int(r.end.y - r.position.y)))
 		var random_drop = drop.instance()
