@@ -14,6 +14,7 @@ const vspread = 0
 const cull = 0
 var path #holds spanning tree to rooms
 onready var Map = $BaseDungeonTiles
+var min_p
 
 func _ready():
 	randomize()
@@ -21,12 +22,13 @@ func _ready():
 	make_map()
 	yield(get_tree(),"idle_frame")
 	spawn_player()
+	make_drops()
 	set_process(true)
 
 func spawn_player():
 	#get leftmost room and spawn the player in it
 	var min_x = INF
-	var min_p = null
+	min_p = null
 	for room in $Rooms.get_children():
 		if room.position.x < min_x:
 			min_p = room
@@ -121,6 +123,22 @@ func make_map():
 					path.get_point_position(conn).y))
 				carve_path(start,end)
 		corridors.append(p)
+
+func make_drops():
+	var rooms = $Rooms.get_children()
+	#pick a random room and put some drops in it
+	var room = rooms[randi() % rooms.size()]
+	#DEBUGGING:
+	room = min_p
+	var r = Rect2(room.position - room.size,
+		room.get_node("CollisionShape2D").shape.extents*2)
+	for i in range(3):
+		var pos = Vector2(r.position.x + (randi() % int(r.end.x - r.position.x)),
+			r.position.y + (randi() % int(r.end.y - r.position.y)))
+		var random_drop = drop.instance()
+		random_drop.position = pos
+		random_drop.make_random_drop()
+		get_parent().add_child(random_drop)
 
 func carve_path(pos1, pos2):
 	var x_diff = sign(pos2.x - pos1.x)

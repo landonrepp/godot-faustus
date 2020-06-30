@@ -1,7 +1,6 @@
 extends Node2D
 
 onready var prjectile_assets = preload("res://Projectiles/Projectile.tscn")
-onready var sprite = get_node("Sprite")
 var weapon_properties = {}
 var player_group = ""
 var weapon_type : int
@@ -32,22 +31,20 @@ func get_shooting():
 	return _is_shooting
 
 func set_flip_v(val : bool):
-	sprite.set_flip_v(val)
-
+	get_node("Sprite").set_flip_v(val)
 
 func make_weapon(proj_dict : Dictionary, group : String) -> void: 
 	player_group = group
 	weapon_properties = proj_dict
 	weapon_type = weapon_properties.get("weapon_type",WeaponType.SEMI_PISTOL)
-	print(sprite)
-	sprite.set_frame(weapon_type)
+	get_node("Sprite").set_frame(weapon_type)
 
 func _process(delta):
 	_last_time_fired += delta
 	if(get_shooting()):
 		_shoot()
 
-func make_random_weapon_dict():
+static func make_random_weapon_dict():
 	var random_weapon_type = randi()%3
 	match random_weapon_type:
 		WeaponType.SEMI_PISTOL, WeaponType.REVOLVER:
@@ -85,11 +82,10 @@ func _shoot():
 			_shot = true
 		else:
 			_shot = false
-			
+
 		var projectile = prjectile_assets.instance()
 		projectile.make_projectile(weapon_properties,
 			get_parent().get_parent().position,
 			Vector2(cos(global_rotation),sin(global_rotation)),
 			get_parent().get_parent().get_collision_layer())
 		get_tree().get_root().get_node("Dungeon").add_child(projectile)
-
