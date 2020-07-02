@@ -18,6 +18,7 @@ var tags
 
 #takes a dictionary with projectile attributes
 func make_projectile(proj_dict : Dictionary, pos :Vector2, proj_direction : Vector2, parent_layer : int) -> void: 
+	print("projectile fired")
 	initial_position = pos
 	position = initial_position
 	direction = proj_direction
@@ -30,7 +31,7 @@ func make_projectile(proj_dict : Dictionary, pos :Vector2, proj_direction : Vect
 	tags = proj_dict.get("tags",[])
 	
 	#set size of projectile
-	scale = Vector2(size/16.0,size/16.0)
+	scale = Vector2(size/64.0,size/64.0)
 	
 	set_collision_mask(get_collision_mask() & ~parent_layer)
 

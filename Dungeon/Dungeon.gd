@@ -144,7 +144,7 @@ func make_drops(num_of_drops : int = 3):
 	var room = rooms[randi() % rooms.size()]
 	var r = Rect2(room.position - room.size/2,
 		room.size)
-	for i in range(num_of_drops):
+	for _i in range(num_of_drops):
 		var pos = Vector2(r.position.x + (randi() % int(r.end.x - r.position.x)),
 			r.position.y + (randi() % int(r.end.y - r.position.y)))
 		var random_drop = drop.instance()

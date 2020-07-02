@@ -55,18 +55,18 @@ static func make_random_weapon_dict():
 				'speed' : randi() % 70 + (100 * random_weapon_type),
 				'damage' : randi() % 100 + 10,
 				'max_distance' : 200,
-				'size' : 6,
+				'size' : .25,
 				'tags' : []
 			}
 		WeaponType.SEMI_RIFLE, WeaponType.AUTO_RIFLE:
 			return {
 				'fire_type' : FireType.FULL_AUTO,
 				'weapon_type' : random_weapon_type,
-				'fire_rate' : .1,
+				'fire_rate' : .8,
 				'speed' : randi() % 70 + 200,
 				'damage' : randi() % 100 + 50,
 				'max_distance' : 200,
-				'size' : 8,
+				'size' : .33,
 				'tags' : []
 			}
 
@@ -85,7 +85,7 @@ func _shoot():
 
 		var projectile = prjectile_assets.instance()
 		projectile.make_projectile(weapon_properties,
-			get_parent().get_parent().position + $Sprite.position.rotated(rotation) * $Sprite.scale,
-			Vector2(cos(global_rotation),sin(global_rotation)),
-			get_parent().get_parent().get_collision_layer())
+				get_parent().get_parent().position + $Sprite.position.rotated(rotation) * $Sprite.scale,
+				Vector2(cos(global_rotation),sin(global_rotation)),
+				get_parent().get_parent().get_collision_layer())
 		get_tree().get_root().get_node("Dungeon").add_child(projectile)
