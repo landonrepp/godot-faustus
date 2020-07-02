@@ -14,7 +14,6 @@ enum Type {
 var type : int
 var stats : Dictionary
 var sprite : Sprite
-
 var _player : Player
 
 func make_drop(drop_type: int, drop_stats : Dictionary, drop_sprite : Sprite):
@@ -26,7 +25,6 @@ func make_drop(drop_type: int, drop_stats : Dictionary, drop_sprite : Sprite):
 	sprite.scale.x = 1.0/8
 	sprite.scale.y = 1.0/8
 	add_child(sprite.duplicate())
-	
 
 func _process(delta):
 	if(_player):
@@ -53,7 +51,6 @@ func _on_Drop_body_entered(body):
 			"sprite":sprite
 		})
 		queue_free()
-
 
 func _on_GraavityArea_body_entered(body):
 	# if body has this property, have the drop get "sucked in" to the body

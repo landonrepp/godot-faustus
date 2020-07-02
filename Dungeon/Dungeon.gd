@@ -2,17 +2,20 @@ extends Node2D
 
 onready var Room = preload("res://Dungeon/Room/Room.tscn")
 onready var Player = preload("res://Player/Player.tscn")
+onready var Enemy = preload("res://Enemy/Enemy.tscn")
 onready var prjectile_assets = preload("res://Projectiles/Projectile.tscn")
 onready var drop = preload("res://Drops/Drop.tscn")
 
+
 const tile_size = 16
-const num_rooms = 6
+const num_rooms = 30
 const min_size = 2
-const max_size = 4
+const max_size = 6
 const hspread = 0
 const vspread = 0
-const cull = 0
+const cull = .3
 var path #holds spanning tree to rooms
+var min_p
 onready var Map = $BaseDungeonTiles
 
 func _ready():
@@ -22,12 +25,13 @@ func _ready():
 	yield(get_tree(),"idle_frame")
 	spawn_player()
 	make_drops()
+	spawn_enemies()
 	set_process(true)
 
 func spawn_player():
 	#get leftmost room and spawn the player in it
 	var min_x = INF
-	var min_p = null
+	min_p = null
 	for room in $Rooms.get_children():
 		if room.position.x < min_x:
 			min_p = room
@@ -37,8 +41,6 @@ func spawn_player():
 	player.position = min_p.position
 	print(min_p.position)
 	add_child(player)
-
-	
 
 func make_rooms():
 	for _i in range(num_rooms):
@@ -65,6 +67,19 @@ func make_rooms():
 	
 	#generate a minimum spanning tree
 	path = find_mst(room_positions)
+
+func spawn_enemies():
+	for room in $Rooms.get_children():
+		if room == min_p:
+			continue
+		var r = Rect2(room.position - room.size/2,
+				room.size)
+		for i in range(randi()%10):
+			var pos = Vector2(r.position.x + (randi() % int(r.end.x - r.position.x)),
+					r.position.y + (randi() % int(r.end.y - r.position.y)))
+			var enemy = Enemy.instance()
+			enemy.position = pos
+			get_parent().add_child(enemy)
 
 func find_mst(nodes):
 	#Prims algorithm

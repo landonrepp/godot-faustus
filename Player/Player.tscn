@@ -20,13 +20,13 @@ current = true
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -4.87927, 1.19492 )
 shape = SubResource( 1 )
 
 [node name="YSort" type="YSort" parent="."]
 
 [node name="PlayerSprite" type="Sprite" parent="YSort"]
-position = Vector2( 7.27597, -0.217705 )
-scale = Vector2( 0.811788, 0.818317 )
+scale = Vector2( 0.812, 0.812 )
 texture = ExtResource( 2 )
 
 [node name="Weapon" parent="YSort" instance=ExtResource( 4 )]

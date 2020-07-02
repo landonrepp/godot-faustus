@@ -85,7 +85,7 @@ func _shoot():
 
 		var projectile = prjectile_assets.instance()
 		projectile.make_projectile(weapon_properties,
-			get_parent().get_parent().position,
+			get_parent().get_parent().position + $Sprite.position.rotated(rotation) * $Sprite.scale,
 			Vector2(cos(global_rotation),sin(global_rotation)),
 			get_parent().get_parent().get_collision_layer())
 		get_tree().get_root().get_node("Dungeon").add_child(projectile)
